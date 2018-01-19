@@ -1,0 +1,306 @@
+// Copyright (c) 2015 Vivaldi Technologies AS. All rights reserved.
+
+[
+  {
+    "namespace": "utilities",
+    "description": "Vivaldi general support api.",
+    "compiler_options": {
+      "implemented_in": "extensions/api/vivaldi_utilities/vivaldi_utilities_api.h"
+    },
+    "types": [
+      {
+        "id": "UrlValidResults",
+        "type": "object",
+        "description": "Object that describes the validitity of a given url.",
+        "properties": {
+          "urlValid": {
+            "type": "boolean",
+            "description": "The url is a correctly formatted url. This might be true even if the protocol is not valid."
+          },
+          "schemeValid": {
+            "type": "boolean",
+            "description": "The protocol scheme is known and one we can show directly."
+          }
+        }
+      },
+      {
+        "id": "FileExtension",
+        "type": "object",
+        "description": "A single extension item used for filtering ",
+        "properties": {
+          "ext": {
+            "type": "string",
+            "description": "Extension ending, eg. 'jpg'"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "basicPrint",
+        "type": "function",
+        "description": "Open basic print dialog",
+        "parameters": [
+        ]
+      },
+      {
+        "name": "clearAllRecentlyClosedSessions",
+        "type": "function",
+        "description": "Clears the list of recently closed tabs and/or windows.",
+        "parameters": [
+          {
+            "type": "function",
+            "name": "callback",
+            "optional": true,
+            "parameters": [
+              {
+                "type": "boolean",
+                "name": "result",
+                "description": "A boolean variable stating if removing recently closed tabs and/or windows call was successfull or not"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "getUniqueUserId",
+        "type": "function",
+        "description": "Obtains a unique identifier for the current user of the computer",
+        "parameters": [
+          {
+            "name": "legacyUserId",
+            "type": "string",
+            "description": "User Id obtained from the old implementation relying on local storage. It will be used if no other user id value is found."
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "uniqueUserId",
+                "type": "string",
+                "description": "The user id as a 16-char hex string."
+              },
+              {
+                "name": "isNewUser",
+                "type": "boolean",
+                "description": "Whether a new user id was created or a previous one was found."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "isTabInLastSession",
+        "type": "function",
+        "description": "Checks whether a given tab is part of the last loaded session",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "string",
+            "description": "The tab id to check if part of the session"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "isInSession",
+                "type": "boolean",
+                "description": "true if the given tabId is loaded from the session and has since not been navigated in, otherwise false."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "isUrlValid",
+        "type": "function",
+        "description": "Validates given URL. Returns UrlValidResults with the results.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The URL to validate",
+            "name": "url"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "results",
+                "$ref": "UrlValidResults"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "getSelectedText",
+        "type": "function",
+        "description": "Returns selected text in page with given id",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "string",
+            "description": "The page to examine"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "text",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "mapFocusAppWindowToWindowId",
+        "type": "function",
+        "description": "Maps focus tracking between a app window and the given window id. Once the tracking is set, focus handling is automatic.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The ID of the app window",
+            "name": "appWindowId"
+          },
+          {
+            "type": "integer",
+            "description": "The ID of the window id.",
+            "name": "windowId"
+          }
+        ]
+      },
+      {
+        "name": "pauseAllDownloads",
+        "type": "function",
+        "description": "Pauses all downloads so the exit sequence can continue.",
+        "parameters": [
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": []
+          }
+        ]
+      },
+      {
+        "name": "createUrlMapping",
+        "type": "function",
+        "description": "Creates a mapping to a local file so it can be accessed using the chrome://vivaldi-data/local-image/ protocol.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The local path to the image file.",
+            "name": "localPath"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "type": "string",
+                "description": "The generated url for the file using for accessing it as chrome://vivaldi-data/local-image/<id>",
+                "name": "generatedUrl"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "removeUrlMapping",
+        "type": "function",
+        "description": "Remove the given url mapping, if it exists.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The url mapping to remove.",
+            "name": "url"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "type": "boolean",
+                "description": "true if the given mapping was found and removed, otherwise false.",
+                "name": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "selectFile",
+        "type": "function",
+        "description": "Select a single file and returns the file name.",
+        "parameters": [
+          {
+            "name": "accepts",
+            "type": "array",
+            "description": "Extensions to filter file names on.",
+            "optional": true,
+            "items": { "$ref": "FileExtension" }
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "Title of the file select dialog.",
+            "optional": true
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "type": "string",
+                "description": "Full path to the selected file.",
+                "name": "path"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "getVersion",
+        "type": "function",
+        "description": "Gets the Vivaldi version and Chromium versions.",
+        "parameters": [
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "vivaldiVer",
+                "type": "string",
+                "description": "The Vivaldi version as a string."
+              },
+              {
+                "name": "chromiumVer",
+                "type": "string",
+                "description": "The Chromium version as a string."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "name": "onScroll",
+        "type": "function",
+        "description": "Fires for Mac when scroll device changes.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "scrollType",
+            "minimum": 0,
+            "description":"Device that triggers scrolling. 1: Mouse, 2: Trackpad 3: Inertial"
+          }
+        ]
+      }
+    ]
+  }
+]

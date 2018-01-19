@@ -1,0 +1,31 @@
+# Static feature overrides, don't change
+# Features we either always want enable or don't want at all,
+# depending on platform settings
+declare_overrides() {
+  proprietary_codecs = true
+  enable_widevine = true
+
+  is_win_fastlink = !is_official_build
+
+  if (is_linux) {
+    if (!is_component_build) {
+      enable_linux_installer = is_linux
+    }
+    if (is_official_build) {
+      symbol_level = 1
+    }
+    if (target_cpu == "x86") {
+      use_lld = true
+    }
+  }
+  #if (is_mac && !is_component_build) {
+    # We need to force SDK 10.10 for Mac builds
+    # Static builds are mostly built by the builder
+  #  mac_use_sdk = "10.10" 
+  #}
+
+  exclude_unwind_tables = is_official_build
+
+  # enable jumbo file compile
+  use_jumbo_build = !is_mac || !is_component_build
+}

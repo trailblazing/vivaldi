@@ -1,0 +1,22 @@
+rootWebArea name='Action verbs'
+++genericContainer
+++++staticText name='Generic div'
+++++++inlineTextBox name='Generic div'
+++heading name='Heading' hierarchicalLevel=1
+++++staticText name='Heading'
+++++++inlineTextBox name='Heading'
+++button name='Button' defaultActionVerb=press
+++link name='Link' defaultActionVerb=jump
+++++staticText name='Link' defaultActionVerb=click
+++++++inlineTextBox name='Link'
+++textField
+++checkBox defaultActionVerb=check checkedState=false
+++checkBox defaultActionVerb=uncheck checkedState=true
+++radioButton defaultActionVerb=select checkedState=false
+++switch name='ARIA Switch' defaultActionVerb=check checkedState=false
+++popUpButton collapsed haspopup defaultActionVerb=open
+++++menuListPopup invisible activedescendantId=menuListOption
+++++++menuListOption selectable selected name='Pop-up button' defaultActionVerb=click
+++genericContainer defaultActionVerb=click
+++++staticText name='Div with click handler' defaultActionVerb=click
+++++++inlineTextBox name='Div with click handler'
